@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello SkyCastle Team"}
+    return {"message": "Hello SkyCastle Team, im microservice 3 on Google Cloud"}
 
 
 if __name__ == "__main__":

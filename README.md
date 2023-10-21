@@ -1,6 +1,6 @@
-# 6156Project_SkyCastle_microservice_1
+# 6156Project_SkyCastle_microservice_3
 
 ## TODO Rename this microservice to its appropriate name
 
 ## Access
-http://ec2-3-145-100-152.us-east-2.compute.amazonaws.com:8012/
+http://35.221.53.203:8012
