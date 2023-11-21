@@ -1,48 +1,48 @@
 import psycopg2
-import uuid
+# import uuid
 
 def connect():
     conn=psycopg2.connect(
         host="microservice.cyzurhix8mmm.us-east-1.rds.amazonaws.com",
         port="5432",
         user="postgres",
-        password="microservice2"
+        password="microservice-3"
     )
     cur=conn.cursor()
     return conn,cur
 
-conn,cur=connect()
+#vconn,cur=connect()
 
 #create a table
-# command="""CREATE TABLE IF NOT EXISTS subscriptions (subscription_id VARCHAR(255) PRIMARY KEY, subscriber_id VARCHAR(255), analyst_id VARCHAR(255), report_id VARCHAR(255), feedbacks VarChar(255), notifications VarChar(255), activity VarChar(255))"""
+# command="CREATE TABLE IF NOT EXISTS reports (report_id VARCHAR(255) PRIMARY KEY,
+#                                     analyst_id VARCHAR(255), content VARCHAR(4000),
+#                                     feedback VARCHAR(255))""
 # cur.execute(command)
 # conn.commit()
 
 #insert data
-# subscription_id="1"
-# subscriber_id="1"
-# analyst_id="1"
 # report_id="1"
-# feedbacks="feedbacks: None"
-# notifications="notifications: None"
-# activity="activity: None"
+# analyst_id="1"
+# content="empty"
+# feedbacks="empty"
 
-# command="""INSERT INTO subscriptions (subscription_id, subscriber_id, analyst_id, report_id, feedbacks, notifications, activity) VALUES (%s, %s, %s, %s, %s, %s, %s)"""
-# cur.execute(command,(subscription_id, subscriber_id, analyst_id, report_id, feedbacks, notifications, activity))
+
+# command="""INSERT INTO reports (report_id, analyst_id, content, feedback) VALUES (%s, %s, %s, %s)"""
+# cur.execute(command,(report_id, analyst_id, content, feedback))
 # conn.commit()
 
 #fetch database
-# command="""SELECT * FROM subscriptions"""
+# command="""SELECT * FROM reports"""
 # cur.execute(command)
 # result=cur.fetchall()
 # print(result)
 
 #delete data
-# command="""DELETE FROM subscriptions WHERE subscription_id=%s"""
+# command="""DELETE FROM reports WHERE report_id=%s"""
 # cur.execute(command,("1"))
 # conn.commit()
 
 #delete table
-# command="""DROP TABLE subscriptions"""
+# command="""DROP TABLE reports"""
 # cur.execute(command)
 # conn.commit()
