@@ -3,7 +3,7 @@ import psycopg2
 
 def connect():
     conn=psycopg2.connect(
-        host="microservice.cyzurhix8mmm.us-east-1.rds.amazonaws.com",
+        host="34.123.172.133",
         port="5432",
         user="postgres",
         password="microservice-3"
