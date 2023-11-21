@@ -14,7 +14,7 @@ async def root():
 async def get_all_reports():
     command="SELECT * FROM reports"
     conn,cur=connect()
-    cur.execute()
+    cur.execute(command)
     result=cur.fetchall()
     return [{row} for row in result]
 
@@ -54,6 +54,15 @@ async def get_feedback(report_id: str):
     cur.execute(command,(report_id))
     result=cur.fetchall()
     return [{row} for row in result]
+
+# Todo:
+# Need to figure everything that goes into a report
+# What exactly do these reports consist of?
+# This will determine how query is supposed to work
+#
+# To add:
+# - update an existing report's content, verify requesting analyst_id matches
+# - delete an existing report
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8012)
