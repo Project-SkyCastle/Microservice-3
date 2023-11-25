@@ -17,6 +17,7 @@ async def get_all_reports():
     conn,cur=connect()
     cur.execute(command)
     result=cur.fetchall()
+    print(result)
     return [
         {
             "report_id": row.report_id,
