@@ -4,7 +4,7 @@ import pymysql
 def connect():
     conn=pymysql.connect(
         host="34.71.37.85",
-        port="3306",
+        port=3306,
         user="root",
         password="microservice-3",
         autocommit=True
