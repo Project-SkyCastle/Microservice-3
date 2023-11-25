@@ -20,11 +20,11 @@ async def get_all_reports():
     print(result)
     return [
         {
-            "report_id": row.report_id,
-            "analyst_id": row.analyst_id,
-            "content": row.content,
-            "feedback": row.feedback,
-            "user_id_list": row.user_id_list,
+            "report_id": row[report_id],
+            "analyst_id": row[analyst_id],
+            "content": row[content],
+            "feedback": row[feedback],
+            "user_id_list": row[user_id_list],
 
         }
         for row in result
@@ -39,11 +39,11 @@ async def get_report_id(report_id: str):
     result=cur.fetchone()
 
     return {
-            "report_id": row.report_id,
-            "analyst_id": row.analyst_id,
-            "content": row.content,
-            "feedback": row.feedback,
-            "user_id_list": row.user_id_list,
+            "report_id": row[report_id],
+            "analyst_id": row[analyst_id],
+            "content": row[content],
+            "feedback": row[feedback],
+            "user_id_list": row[user_id_list],
         }
 
 
@@ -54,7 +54,7 @@ async def get_analyst_id(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"analyst_id": row.analyst_id}
+    return {"analyst_id": row[analyst_id]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/content")
@@ -63,7 +63,7 @@ async def get_content(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"content": row.content}
+    return {"content": row[content]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/feedback")
@@ -72,7 +72,7 @@ async def get_feedback(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"feedback": row.feedback}
+    return {"feedback": row[feedback]}
 
 # Comma seperated user_id_list, consider formatting this differently
 @app.get("/reports/{report_id}/user_id_list")
@@ -81,7 +81,7 @@ async def get_user_id_list(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchall()
-    return {"user_id_list": row.user_id_list}
+    return {"user_id_list": row[user_id_list]}
 
 # Todo:
 # Need to figure everything that goes into a report
@@ -105,9 +105,9 @@ async def create_report(rep: Report):
         cur.execute(
             sql,
             {
-                "analyst_id": rep.analyst_id,
-                "content": rep.content,
-                "feedback": rep.feedback,
+                "analyst_id": rep[analyst_id],
+                "content": rep[content],
+                "feedback": rep[feedback],
             },
         )
         this_report = cur.fetchone()
@@ -118,11 +118,11 @@ async def create_report(rep: Report):
         return ex
 
     return {
-            "report_id": this_report.report_id,
-            "analyst_id": this_report.analyst_id,
-            "content": this_report.content,
-            "feedback": this_report.feedback,
-            "user_id_list": this_report.user_id_list,
+            "report_id": this_report[report_id],
+            "analyst_id": this_report[analyst_id],
+            "content": this_report[content],
+            "feedback": this_report[feedback],
+            "user_id_list": this_report[user_id_list],
         }
 
 # Update existing report's content with report_id
@@ -138,7 +138,7 @@ async def update_report(rep: Report):
         cur.execute(
             sql1,
             {
-                "report_id": rep.report_id,
+                "report_id": rep[report_id],
             },
         )
         orig_report = cur.fetchone()
@@ -148,8 +148,8 @@ async def update_report(rep: Report):
         cur.execute(
             sql2,
             {
-                "content": rep.content,
-                "feedback": rep.feedback,
+                "content": rep[content],
+                "feedback": rep[feedback],
             },
         )
         updated_report = cur.fetchone()
@@ -160,11 +160,11 @@ async def update_report(rep: Report):
         return ex
 
     return {
-            "report_id": updated_report.report_id,
-            "analyst_id": updated_report.analyst_id,
-            "content": updated_report.content,
-            "feedback": updated_report.feedback,
-            "user_id_list": updated_report.user_id_list,
+            "report_id": updated_report[report_id],
+            "analyst_id": updated_report[analyst_id],
+            "content": updated_report[content],
+            "feedback": updated_report[feedback],
+            "user_id_list": updated_report[user_id_list],
         }
 
 # Delete a report with the specified report_id
