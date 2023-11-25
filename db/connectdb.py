@@ -1,11 +1,11 @@
-import psycopg2
 # import uuid
+import pymysql
 
 def connect():
-    conn=psycopg2.connect(
-        host="34.123.172.133",
-        port="5432",
-        user="postgres",
+    conn=pymysql.connect(
+        host="34.71.37.85",
+        port="3306",
+        user="root",
         password="microservice-3"
     )
     cur=conn.cursor()
