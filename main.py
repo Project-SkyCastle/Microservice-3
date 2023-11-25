@@ -161,8 +161,5 @@ async def delete_report(report_id: str):
     return {"Deleted": report_id}
 
 
-
-# Update existing report's feedback
-
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8012)
