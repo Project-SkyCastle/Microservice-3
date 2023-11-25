@@ -56,6 +56,15 @@ async def get_feedback(report_id: str):
     result=cur.fetchall()
     return [{row} for row in result]
 
+# Comma seperated user_id_list, consider formatting this differently
+@app.get("/reports/{report_id}/user_id_list")
+async def get_user_id_list(report_id: str):
+    command="SELECT user_id_list FROM reports WHERE report_id=%s"
+    conn,cur=connect()
+    cur.execute(command,(report_id))
+    result=cur.fetchall()
+    return [{row} for row in result]
+
 # Todo:
 # Need to figure everything that goes into a report
 # What exactly do these reports consist of?
@@ -66,11 +75,11 @@ async def get_feedback(report_id: str):
 # - delete an existing report
 
 # Create a report, db assigns report_id
-@app.post("/reports/")
+@app.post("/reports")
 async def create_report(rep: Report):
     sql = (
         "INSERT into reports(analyst_id, content, feedback) "
-        "VALUES (%(analyst_id)s, %(content)s, %(feedback)s) RETURNING *"
+        "VALUES (%(analyst_id)s, %(content)s, %(feedback)s)"
     )
 
     conn,cur=connect()
@@ -96,7 +105,7 @@ async def create_report(rep: Report):
 @app.put("/reports")
 async def update_report(rep: Report):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
-    sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s RETURNING *"
+    sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s"
 
     conn,cur=connect()
     try:

@@ -1,0 +1,10 @@
+http://35.221.53.203:8012/reports
+
+POST http://35.221.53.203:8012/reports/ HTTP/1.1
+content-type: application/json
+
+{
+    "analyst_id": "1",
+    "content": "filler content",
+    "feedback": "junk feedback"
+}
