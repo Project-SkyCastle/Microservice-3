@@ -7,10 +7,9 @@ def connect():
         user="root",
         password="microservice-3",
         database="reportsdb",
-        autocommit=True,
-        dictionary=True
+        autocommit=True
     )
-    cur=conn.cursor()
+    cur=conn.cursor(dictionary=True)
     return conn,cur
 
 #vconn,cur=connect()
