@@ -7,9 +7,10 @@ def connect():
         user="root",
         password="microservice-3",
         database="reportsdb",
-        autocommit=True
+        autocommit=True,
+        cursorclass=pymysql.cursors.DictCursor
     )
-    cur=conn.cursor(dictionary=True)
+    cur=conn.cursor()
     return conn,cur
 
 #vconn,cur=connect()
