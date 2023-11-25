@@ -6,7 +6,8 @@ def connect():
         host="34.71.37.85",
         port="3306",
         user="root",
-        password="microservice-3"
+        password="microservice-3",
+        autocommit=True
     )
     cur=conn.cursor()
     return conn,cur
