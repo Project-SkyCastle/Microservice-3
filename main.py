@@ -17,7 +17,17 @@ async def get_all_reports():
     conn,cur=connect()
     cur.execute(command)
     result=cur.fetchall()
-    return [{row} for row in result]
+    return [
+        {
+            "report_id": row.report_id,
+            "analyst_id": row.analyst_id,
+            "content": row.content,
+            "feedback": row.feedback,
+            "user_id_list": row.user_id_list,
+
+        }
+        for row in result
+    ]
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
@@ -25,8 +35,15 @@ async def get_report_id(report_id: str):
     command="SELECT * FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
-    result=cur.fetchall()
-    return [{row} for row in result]
+    result=cur.fetchone()
+    return
+        {
+            "report_id": row.report_id,
+            "analyst_id": row.analyst_id,
+            "content": row.content,
+            "feedback": row.feedback,
+            "user_id_list": row.user_id_list,
+        }
 
 
 # Note: should add check that this is only 0 or 1 size
@@ -35,8 +52,8 @@ async def get_analyst_id(report_id: str):
     command="SELECT analyst_id FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
-    result=cur.fetchall()
-    return [{row} for row in result]
+    result=cur.fetchone()
+    return {"analyst_id": row.analyst_id}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/content")
@@ -44,8 +61,8 @@ async def get_content(report_id: str):
     command="SELECT content FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
-    result=cur.fetchall()
-    return [{row} for row in result]
+    result=cur.fetchone()
+    return {"content": row.content}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/feedback")
@@ -53,8 +70,8 @@ async def get_feedback(report_id: str):
     command="SELECT feedback FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
-    result=cur.fetchall()
-    return [{row} for row in result]
+    result=cur.fetchone()
+    return {"feedback": row.feedback}
 
 # Comma seperated user_id_list, consider formatting this differently
 @app.get("/reports/{report_id}/user_id_list")
@@ -63,7 +80,7 @@ async def get_user_id_list(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchall()
-    return [{row} for row in result]
+    return {"user_id_list": row.user_id_list}
 
 # Todo:
 # Need to figure everything that goes into a report
@@ -99,7 +116,14 @@ async def create_report(rep: Report):
         conn.rollback()
         return ex
 
-    return this_report
+    return
+        {
+            "report_id": this_report.report_id,
+            "analyst_id": this_report.analyst_id,
+            "content": this_report.content,
+            "feedback": this_report.feedback,
+            "user_id_list": this_report.user_id_list,
+        }
 
 # Update existing report's content with report_id
 @app.put("/reports")
@@ -135,7 +159,14 @@ async def update_report(rep: Report):
         conn.rollback()
         return ex
 
-    return updated_report
+    return
+        {
+            "report_id": updated_report.report_id,
+            "analyst_id": updated_report.analyst_id,
+            "content": updated_report.content,
+            "feedback": updated_report.feedback,
+            "user_id_list": updated_report.user_id_list,
+        }
 
 # Delete a report with the specified report_id
 @app.delete("/reports/{report_id}")

@@ -7,3 +7,4 @@ class Report(BaseModel):
     analyst_id: Optional[str] = None
     content: Optional[str] = None
     feedback: Optional[str] = None
+    user_id_list: Optional[str] = None

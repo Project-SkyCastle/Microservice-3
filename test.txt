@@ -1,6 +1,6 @@
 http://35.221.53.203:8012/reports
 
-POST http://35.221.53.203:8012/reports/ HTTP/1.1
+POST http://35.221.53.203:8012/reports HTTP/1.1
 content-type: application/json
 
 {
@@ -8,3 +8,13 @@ content-type: application/json
     "content": "filler content",
     "feedback": "junk feedback"
 }
+
+PUT http://35.221.53.203:8012/reports HTTP/1.1
+content-type: application/json
+
+{
+    "report_id": "1",
+    "content": "filler content updated",
+    "feedback": "junk feedbac again"
+}
+
