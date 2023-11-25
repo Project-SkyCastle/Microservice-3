@@ -6,6 +6,7 @@ def connect():
         host="34.71.37.85",
         user="root",
         password="microservice-3",
+        database="reportsdb",
         autocommit=True
     )
     cur=conn.cursor()
