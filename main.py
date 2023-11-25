@@ -36,8 +36,8 @@ async def get_report_id(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return
-        {
+
+    return {
             "report_id": row.report_id,
             "analyst_id": row.analyst_id,
             "content": row.content,
@@ -116,8 +116,7 @@ async def create_report(rep: Report):
         conn.rollback()
         return ex
 
-    return
-        {
+    return {
             "report_id": this_report.report_id,
             "analyst_id": this_report.analyst_id,
             "content": this_report.content,
@@ -159,8 +158,7 @@ async def update_report(rep: Report):
         conn.rollback()
         return ex
 
-    return
-        {
+    return {
             "report_id": updated_report.report_id,
             "analyst_id": updated_report.analyst_id,
             "content": updated_report.content,
