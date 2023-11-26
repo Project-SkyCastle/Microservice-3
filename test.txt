@@ -1,20 +1,24 @@
 http://35.221.53.203:8012/reports
 
+http://35.221.53.203:8012/reports/10/users
+
 POST http://35.221.53.203:8012/reports HTTP/1.1
 content-type: application/json
 
 {
-    "analyst_id": "3",
-    "content": "third post",
-    "feedback": "more junk junk"
+    "analyst_id": "4",
+    "content": "testing add with new",
+    "feedback": "oppa oppa"
 }
 
 PUT http://35.221.53.203:8012/reports HTTP/1.1
 content-type: application/json
 
 {
-    "report_id": "1",
-    "content": "filler content updated second time",
-    "feedback": "junk feedbac again again"
+    "report_id": "9",
+    "content": "changing this again",
+    "feedback": "hola"
 }
+
+DELETE http://35.221.53.203:8012/reports/7 HTTP/1.1
 
