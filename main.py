@@ -136,7 +136,7 @@ async def update_report(rep: Report):
         cur.execute(
             sql1,
             {
-                "report_id": rep.report_id,
+                "report_id": str(rep.report_id),
             },
         )
         orig_report = cur.fetchone()
