@@ -124,11 +124,11 @@ async def create_report(rep: Report):
         return ex
 
     return {
-            "report_id": this_report["report_id"],
-            "analyst_id": this_report["analyst_id"],
-            "content": this_report["content"],
-            "feedback": this_report["feedback"],
-            "user_id_list": this_report["user_id_list"],
+            "report_id": this_report
+            "analyst_id": rep.analyst_id,
+            "content": rep.content,
+            "feedback": rep.feedback,
+            "user_id_list": ,
         }
 
 # Update existing report's content with report_id
