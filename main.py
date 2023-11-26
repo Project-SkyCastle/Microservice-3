@@ -61,7 +61,7 @@ async def get_content(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"content": row["content"]}
+    return {"content": result["content"]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/feedback")
@@ -70,7 +70,7 @@ async def get_feedback(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"feedback": row["feedback"]}
+    return {"feedback": result["feedback"]}
 
 # Comma seperated user_id_list, consider formatting this differently
 @app.get("/reports/{report_id}/user_id_list")
@@ -79,7 +79,7 @@ async def get_user_id_list(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchall()
-    return {"user_id_list": row["user_id_list"]}
+    return {"user_id_list": result["user_id_list"]}
 
 # Todo:
 # Need to figure everything that goes into a report
