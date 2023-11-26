@@ -29,7 +29,6 @@ async def get_report_id(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-
     return result
 
 
@@ -40,7 +39,7 @@ async def get_analyst_id(report_id: str):
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"analyst_id": row[analyst_id]}
+    return {"analyst_id": result[analyst_id]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/content")
