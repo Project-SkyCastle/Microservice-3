@@ -19,15 +19,13 @@ async def get_all_reports():
     result=cur.fetchall()
     print(result)
     return [
-        {
-            "report_id": drow[report_id],
-            "analyst_id": drow[analyst_id],
-            "content": drow[content],
-            "feedback": drow[feedback],
-            "user_id_list": drow[user_id_list],
-
-        }
-        for drow=dict(row) in result
+        row """
+            "report_id": row[report_id],
+            "analyst_id": row[analyst_id],
+            "content": row[content],
+            "feedback": row[feedback],
+            "user_id_list": row[user_id_list], """
+        for row in result
     ]
 
 # Note: should add check that this is only 0 or 1 size
