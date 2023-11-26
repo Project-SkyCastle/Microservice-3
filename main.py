@@ -129,26 +129,21 @@ async def update_report(rep: Report):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s"
 
-    print(rep)
     conn,cur=connect()
     try:
-        # Todo: add logic to only update content and feedback if new values present
-        # otherwise keep the values the same as the original
+        # Check exists
         cur.execute(
             sql1,
             {
                 "report_id": rep.report_id,
             },
         )
-        print("first executed")
         orig_report = cur.fetchone()
-        print("first fetched")
         if orig_report is None:
             return "Report does not exist"
 
+        # Perform update
         conn,cur=connect()
-        print("second connection")
-
         cur.execute(
             sql2,
             {
@@ -157,7 +152,15 @@ async def update_report(rep: Report):
                 "report_id": rep.report_id,
             },
         )
-        print("second executed")
+
+        # Get updated record
+        conn,cur=connect()
+        cur.execute(
+            sql1,
+            {
+                "report_id": rep.report_id,
+            },
+        )
         updated_report = cur.fetchone()
 
     except Exception as ex:
