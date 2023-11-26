@@ -128,7 +128,7 @@ async def create_report(rep: Report):
             "analyst_id": rep.analyst_id,
             "content": rep.content,
             "feedback": rep.feedback,
-            "user_id_list": ,
+            "user_id_list": None,
         }
 
 # Update existing report's content with report_id
