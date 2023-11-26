@@ -30,7 +30,7 @@ async def get_report_id(report_id: str):
     cur.execute(command,(report_id))
     result=cur.fetchone()
 
-    return row for row in result
+    return result
 
 
 # Note: should add check that this is only 0 or 1 size
