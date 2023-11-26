@@ -82,7 +82,7 @@ async def get_user_id_list(report_id: str):
     cur.execute(command,(report_id))
     result=cur.fetchone()
     print(result)
-    return {"user_id_list": result["user_id_list"]}
+    return {"user_id_list": get_user_list(result["user_id_list"])}
 
 def get_user_list(user_list: dict):
     if (user_list is None) or (user_list == "null") :
