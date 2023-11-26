@@ -22,13 +22,6 @@ async def get_all_reports():
         row for row in result
     ]
 
-    """
-            "report_id": row[report_id],
-            "analyst_id": row[analyst_id],
-            "content": row[content],
-            "feedback": row[feedback],
-            "user_id_list": row[user_id_list], """
-
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
 async def get_report_id(report_id: str):
@@ -37,13 +30,7 @@ async def get_report_id(report_id: str):
     cur.execute(command,(report_id))
     result=cur.fetchone()
 
-    return {
-            "report_id": row[report_id],
-            "analyst_id": row[analyst_id],
-            "content": row[content],
-            "feedback": row[feedback],
-            "user_id_list": row[user_id_list],
-        }
+    return row for row in result
 
 
 # Note: should add check that this is only 0 or 1 size
