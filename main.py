@@ -78,7 +78,7 @@ async def get_user_id_list(report_id: str):
     command="SELECT user_id_list FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
-    result=cur.fetchall()
+    result=cur.fetchone()
     return {"user_id_list": result["user_id_list"]}
 
 # Todo:
