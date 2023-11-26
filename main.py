@@ -93,14 +93,15 @@ async def get_user_id_list(report_id: str):
 # Create a report, db assigns report_id
 @app.post("/reports")
 async def create_report(rep: Report):
-    sql = (
+    sql1 = (
         "INSERT into reports(analyst_id, content, feedback) "
-        "VALUES (%(analyst_id)s, %(content)s, %(feedback)s); "
-        "SELECT LAST_INSERT_ID();"
+        "VALUES (%(analyst_id)s, %(content)s, %(feedback)s)"
     )
+    sql2 = "SELECT * FROM reports where report_id=LAST_INSERT_ID()"
 
     conn,cur=connect()
     try:
+        # Perform the addition
         cur.execute(
             sql,
             {
@@ -109,6 +110,11 @@ async def create_report(rep: Report):
                 "feedback": rep.feedback,
             },
         )
+
+        # Get the inserted record
+        conn,cur=connect()
+        cur.execute(sql2)
+
         this_report = cur.fetchone()
         print(this_report)
 
