@@ -154,6 +154,7 @@ async def update_report(rep: Report):
             {
                 "content": rep.content,
                 "feedback": rep.feedback,
+                "report_id": rep.report_id,
             },
         )
         print("second executed")
