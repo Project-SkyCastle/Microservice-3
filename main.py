@@ -14,10 +14,28 @@ async def root():
     return {"message": "Hello SkyCastle Team, im microservice 3 on Google Cloud"}
 
 @app.get("/reports")
-async def get_all_reports():
-    command="SELECT * FROM reports"
+async def get_all_reports(analyst: string = "", limit: int = 0):
     conn,cur=connect()
-    cur.execute(command)
+    command="SELECT * FROM reports"
+    if (analyst != "" and limit > 0) {
+        command="SELECT * FROM reports WHERE analyst_id=%s LIMIT %d"
+        cur.execute(command, analyst, limit)
+    }
+
+    elif (analyst != "") {
+        command="SELECT * FROM reports WHERE analyst_id=%s"
+        cur.execute(command, analyst)
+    }
+
+    elif (limit != -1) {
+        command="SELECT * FROM reports LIMIT %d"
+        cur.execute(command, limit)
+    }
+
+    else {
+        cur.execute(command)
+    }
+
     result=cur.fetchall()
 
     return [
@@ -30,6 +48,9 @@ async def get_all_reports():
         }
         for row in result
     ]
+
+# Filtering additions:
+# - to add,
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
