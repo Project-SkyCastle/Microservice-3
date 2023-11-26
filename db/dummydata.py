@@ -1,4 +1,4 @@
-import psycopg
+import pymysql
 from datetime import datetime
 
 # Note: data as it's formatted in the table
@@ -35,7 +35,7 @@ dummy_data = [
     },
 ]
 
-with psycopg.connect(
+with pymysql.connect(
     host="34.71.37.85",
     user="root",
     password="microservice-3",
