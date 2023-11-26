@@ -97,7 +97,7 @@ async def create_report(rep: Report):
         "INSERT into reports(analyst_id, content, feedback) "
         "VALUES (%(analyst_id)s, %(content)s, %(feedback)s)"
     )
-    sql2 = "SELECT * FROM reports where report_id=LAST_INSERT_ID()"
+    sql2 = "SELECT LAST_INSERT_ID()"
 
     conn,cur=connect()
     try:
@@ -111,7 +111,7 @@ async def create_report(rep: Report):
             },
         )
 
-        # Get the inserted record
+        # Get the inserted record primary key
         conn,cur=connect()
         cur.execute(sql2)
 
