@@ -124,7 +124,7 @@ async def create_report(rep: Report):
         return ex
 
     return {
-            "report_id": this_report,
+            "report_id": this_report["LAST_INSERT_ID()"],
             "analyst_id": rep.analyst_id,
             "content": rep.content,
             "feedback": rep.feedback,
