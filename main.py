@@ -83,7 +83,7 @@ async def get_user_id_list(report_id: str):
 
 def get_user_list(user_list: str):
     if (user_list is None) or (user_list == "null") :
-        return ""
+        return None
 
     return user_list
 
