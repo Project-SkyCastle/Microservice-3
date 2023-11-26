@@ -17,7 +17,7 @@ async def get_all_reports():
     conn,cur=connect()
     cur.execute(command)
     result=cur.fetchall()
-    print(result)
+
     return [
         {
             "report_id": row["report_id"],
@@ -136,13 +136,14 @@ async def update_report(rep: Report):
         cur.execute(
             sql1,
             {
-                "report_id": str(rep.report_id),
+                "report_id": rep.report_id,
             },
         )
         orig_report = cur.fetchone()
         if orig_report is None:
             return "Report does not exist"
 
+        conn,cur=connect()
         cur.execute(
             sql2,
             {
@@ -184,6 +185,7 @@ async def delete_report(report_id: str):
         if this_report is None:
             return "Report does not exist"
 
+        conn,curr=connect()
         cur.execute(
             sql2,
             {
