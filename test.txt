@@ -4,9 +4,9 @@ POST http://35.221.53.203:8012/reports HTTP/1.1
 content-type: application/json
 
 {
-    "analyst_id": "2",
-    "content": "second post",
-    "feedback": "more junk"
+    "analyst_id": "3",
+    "content": "third post",
+    "feedback": "more junk junk"
 }
 
 PUT http://35.221.53.203:8012/reports HTTP/1.1

@@ -96,7 +96,7 @@ async def create_report(rep: Report):
     sql = (
         "INSERT into reports(analyst_id, content, feedback) "
         "VALUES (%(analyst_id)s, %(content)s, %(feedback)s); "
-        "SELECT LAST_INSERT_ID()"
+        "SELECT LAST_INSERT_ID();"
     )
 
     conn,cur=connect()
