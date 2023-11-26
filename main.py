@@ -18,7 +18,7 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
     conn,cur=connect()
     command="SELECT * FROM reports"
     if (analyst != "" and limit > 0):
-        command="SELECT * FROM reports WHERE analyst_id=%(analyst_id)s LIMIT %(limit_bound)d"
+        command="SELECT * FROM reports WHERE analyst_id=%(analyst_id)s LIMIT %(limit_bound)s"
         cur.execute(
             command,
             {
@@ -37,7 +37,7 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
         )
 
     elif (limit != -1):
-        command="SELECT * FROM reports LIMIT %(limit_bound)d"
+        command="SELECT * FROM reports LIMIT %(limit_bound)s"
         cur.execute(
             command,
             {
