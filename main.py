@@ -14,7 +14,7 @@ async def root():
     return {"message": "Hello SkyCastle Team, im microservice 3 on Google Cloud"}
 
 @app.get("/reports")
-async def get_all_reports(analyst: string = "", limit: int = 0):
+async def get_all_reports(analyst: str = "", limit: int = 0):
     conn,cur=connect()
     command="SELECT * FROM reports"
     if (analyst != "" and limit > 0):
