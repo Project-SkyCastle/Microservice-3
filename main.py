@@ -160,6 +160,7 @@ async def update_report(rep: Report):
         updated_report = cur.fetchone()
 
     except Exception as ex:
+        traceback.print_exc()
         print(ex)
         print("hit exception")
         conn.rollback()
