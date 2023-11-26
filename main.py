@@ -112,7 +112,7 @@ async def create_report(rep: Report):
         )
 
         # Get the inserted record primary key
-        conn,cur=connect()
+        cur=conn.cursor()
         cur.execute(sql2)
 
         this_report = cur.fetchone()
