@@ -36,7 +36,7 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
             },
         )
 
-    elif (limit != -1):
+    elif (limit > 0):
         command="SELECT * FROM reports LIMIT %(limit_bound)s"
         cur.execute(
             command,
