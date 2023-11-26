@@ -129,8 +129,6 @@ async def update_report(rep: Report):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s"
 
-    print(rep)
-    print(rep.report_id)
     conn,cur=connect()
     try:
         # Todo: add logic to only update content and feedback if new values present
@@ -156,6 +154,7 @@ async def update_report(rep: Report):
 
     except Exception as ex:
         print(ex)
+        print("hit exception")
         conn.rollback()
         return ex
 
