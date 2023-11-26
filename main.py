@@ -85,9 +85,7 @@ def get_user_list(user_list: str):
     if (user_list is None) or (user_list == "null") :
         return "[]"
 
-    return [
-        user
-    ] for user in user_list.split(",")
+    return "[" + user_list + "]"
 
 # Todo:
 # Need to figure everything that goes into a report
