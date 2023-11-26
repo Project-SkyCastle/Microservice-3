@@ -26,7 +26,7 @@ async def get_all_reports():
             "feedback": row["feedback"],
             "user_id_list": row["user_id_list"],
         }
-        row for row in result
+        for row in result
     ]
 
 # Note: should add check that this is only 0 or 1 size
