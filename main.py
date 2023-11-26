@@ -19,14 +19,15 @@ async def get_all_reports():
     result=cur.fetchall()
     print(result)
     return [
-        row """
+        row for row in result
+    ]
+
+    """
             "report_id": row[report_id],
             "analyst_id": row[analyst_id],
             "content": row[content],
             "feedback": row[feedback],
             "user_id_list": row[user_id_list], """
-        for row in result
-    ]
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
