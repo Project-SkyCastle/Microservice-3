@@ -73,13 +73,21 @@ async def get_feedback(report_id: str):
     return {"feedback": result["feedback"]}
 
 # Comma seperated user_id_list, consider formatting this differently
-@app.get("/reports/{report_id}/user_id_list")
+@app.get("/reports/{report_id}/users")
 async def get_user_id_list(report_id: str):
     command="SELECT user_id_list FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
-    return {"user_id_list": result["user_id_list"]}
+    return {"user_id_list": get_user_list(result["user_id_list"])}
+
+def get_user_list(user_list: str):
+    if (user_list is None) or (user_list == "null") :
+        return "[]"
+
+    return [
+        user
+    ] for user in user_list.split(",")
 
 # Todo:
 # Need to figure everything that goes into a report
