@@ -26,7 +26,7 @@ async def get_all_reports():
             "analyst_id": row["analyst_id"],
             "content": row["content"],
             "feedback": row["feedback"],
-            "user_id_list": row["user_id_list"],
+            "user_id_list": get_user_list(row["user_id_list"]),
         }
         for row in result
     ]
@@ -43,7 +43,7 @@ async def get_report_id(report_id: str):
             "analyst_id": result["analyst_id"],
             "content": result["content"],
             "feedback": result["feedback"],
-            "user_id_list": result["user_id_list"],
+            "user_id_list": get_user_list(result["user_id_list"]),
         }
 
 
@@ -136,7 +136,7 @@ async def create_report(rep: Report):
             "analyst_id": rep.analyst_id,
             "content": rep.content,
             "feedback": rep.feedback,
-            "user_id_list": None,
+            "user_id_list": [],
         }
 
 # Update existing report's content with report_id
@@ -191,7 +191,7 @@ async def update_report(rep: Report):
             "analyst_id": updated_report["analyst_id"],
             "content": updated_report["content"],
             "feedback": updated_report["feedback"],
-            "user_id_list": updated_report["user_id_list"],
+            "user_id_list": get_user_list(updated_report["user_id_list"]),
         }
 
 # Delete a report with the specified report_id
