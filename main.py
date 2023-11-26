@@ -103,7 +103,7 @@ async def create_report(rep: Report):
     try:
         # Perform the addition
         cur.execute(
-            sql,
+            sql1,
             {
                 "analyst_id": rep.analyst_id,
                 "content": rep.content,
