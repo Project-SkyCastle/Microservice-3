@@ -142,10 +142,12 @@ async def update_report(rep: Report):
         )
         print("first executed")
         orig_report = cur.fetchone()
+        print("first fetched")
         if orig_report is None:
             return "Report does not exist"
 
         conn,cur=connect()
+        print("second connection")
 
         cur.execute(
             sql2,
