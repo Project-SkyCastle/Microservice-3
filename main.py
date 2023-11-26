@@ -17,24 +17,21 @@ async def root():
 async def get_all_reports(analyst: string = "", limit: int = 0):
     conn,cur=connect()
     command="SELECT * FROM reports"
-    if (analyst != "" and limit > 0) {
+    if (analyst != "" and limit > 0):
         command="SELECT * FROM reports WHERE analyst_id=%s LIMIT %d"
         cur.execute(command, analyst, limit)
-    }
 
-    elif (analyst != "") {
+    elif (analyst != ""):
         command="SELECT * FROM reports WHERE analyst_id=%s"
         cur.execute(command, analyst)
-    }
 
-    elif (limit != -1) {
+    elif (limit != -1):
         command="SELECT * FROM reports LIMIT %d"
         cur.execute(command, limit)
-    }
 
-    else {
+    else:
         cur.execute(command)
-    }
+
 
     result=cur.fetchall()
 
