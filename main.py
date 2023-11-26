@@ -103,9 +103,9 @@ async def create_report(rep: Report):
         cur.execute(
             sql,
             {
-                "analyst_id": rep["analyst_id"],
-                "content": rep["content"],
-                "feedback": rep["feedback"],
+                "analyst_id": rep.analyst_id,
+                "content": rep.content,
+                "feedback": rep.feedback,
             },
         )
         this_report = cur.fetchone()
@@ -129,6 +129,8 @@ async def update_report(rep: Report):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s"
 
+    print(rep)
+    print(rep.report_id)
     conn,cur=connect()
     try:
         # Todo: add logic to only update content and feedback if new values present
@@ -136,7 +138,7 @@ async def update_report(rep: Report):
         cur.execute(
             sql1,
             {
-                "report_id": rep["report_id"],
+                "report_id": rep.report_id,
             },
         )
         orig_report = cur.fetchone()
@@ -146,8 +148,8 @@ async def update_report(rep: Report):
         cur.execute(
             sql2,
             {
-                "content": rep["content"],
-                "feedback": rep["feedback"],
+                "content": rep.content,
+                "feedback": rep.feedback,
             },
         )
         updated_report = cur.fetchone()
