@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+import time
 from db.connectdb import connect
 from report import Report
 
@@ -8,6 +9,17 @@ import uvicorn
 import json
 
 app = FastAPI()
+
+#Middleware functionality: logging request details
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    with open("request_log.txt", mode="a") as reqfile:
+        content = f"Method: {request.method}, Path: {request.url.path}, Response_status: {response.status_code}, Duration: {process_time}s\n"
+        reqfile.write(content)
+    return response
 
 @app.get("/")
 async def root():
