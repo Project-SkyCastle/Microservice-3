@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response, status
 import time
 from db.connectdb import connect
 from report import Report
@@ -62,6 +62,8 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
 
 
     result=cur.fetchall()
+    if (result is None):
+        return []
 
     result_list = [
         {
@@ -74,18 +76,23 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
         for row in result
     ]
 
-    return result_list
+    # Make very clear this can come back empty
+    if (len(result_list) == 0):
+        return []
 
-# TODO
-# - Add check in case no results to avoid invalid indexes
+    return result_list
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
-async def get_report_id(report_id: str):
+async def get_report_id(report_id: str, response: Response):
     command="SELECT * FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
+
     return {
             "report_id": result["report_id"],
             "analyst_id": result["analyst_id"],
@@ -94,49 +101,73 @@ async def get_report_id(report_id: str):
             "user_id_list": get_user_list(result["user_id_list"]),
         }
 
+# Note: should add check that this is only 0 or 1 size
+@app.get("/reports/{report_id}/title")
+async def get_analyst_id(report_id: str, response: Response):
+    command="SELECT title FROM reports WHERE report_id=%s"
+    conn,cur=connect()
+    cur.execute(command,(report_id))
+    result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
+    return {"title": result["title"]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/analyst")
-async def get_analyst_id(report_id: str):
+async def get_analyst_id(report_id: str, response: Response):
     command="SELECT analyst_id FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
     return {"analyst_id": result["analyst_id"]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/content")
-async def get_content(report_id: str):
+async def get_content(report_id: str, response: Response):
     command="SELECT content FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
     return {"content": result["content"]}
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}/feedback")
-async def get_feedback(report_id: str):
+async def get_feedback(report_id: str, response: Response):
     command="SELECT feedback FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
     return {"feedback": result["feedback"]}
 
 # Comma seperated user_id_list, consider formatting this differently
 @app.get("/reports/{report_id}/users")
-async def get_user_id_list(report_id: str):
+async def get_user_id_list(report_id: str, response: Response):
     command="SELECT user_id_list FROM reports WHERE report_id=%s"
     conn,cur=connect()
     cur.execute(command,(report_id))
     result=cur.fetchone()
+    if (result is None):
+        response.status_code = status.HTTP_400
+        return {"report_id": "-1"}
     print(result)
     return {"user_id_list": get_user_list(result["user_id_list"])}
 
-def get_user_list(user_list: dict):
+def get_user_list(user_list: dict, response: Response):
     if (user_list is None) or (user_list == "null") :
         return []
 
-    return user_list.split(",")
+    res_list = user_list.split(",")
+    return [res for res in res_list if res != ""]
 
 # Todo:
 # Need to figure everything that goes into a report
@@ -148,8 +179,8 @@ def get_user_list(user_list: dict):
 # - delete an existing report
 
 # Create a report, db assigns report_id
-@app.post("/reports")
-async def create_report(rep: Report):
+@app.post("/reports", status_code=201)
+async def create_report(rep: Report, response: Response):
     sql1 = (
         "INSERT into reports(analyst_id, content, feedback) "
         "VALUES (%(analyst_id)s, %(content)s, %(feedback)s)"
@@ -173,11 +204,15 @@ async def create_report(rep: Report):
         cur.execute(sql2)
 
         this_report = cur.fetchone()
+        if (this_report is None):
+            response.status_code = status.HTTP_400
+            return {"report_id": "-1"}
         print(this_report)
 
     except Exception as ex:
         print(ex)
         conn.rollback()
+        response.status_code = status.HTTP_400
         return ex
 
     return {
@@ -190,7 +225,7 @@ async def create_report(rep: Report):
 
 # Update existing report's content with report_id
 @app.put("/reports")
-async def update_report(rep: Report):
+async def update_report(rep: Report, response: Response):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "UPDATE reports SET content=%(content)s, feedback=%(feedback)s WHERE report_id=%(report_id)s"
 
@@ -205,6 +240,7 @@ async def update_report(rep: Report):
         )
         orig_report = cur.fetchone()
         if orig_report is None:
+            response.status_code = status.HTTP_400
             return "Report does not exist"
 
         # Perform update
@@ -229,7 +265,7 @@ async def update_report(rep: Report):
         updated_report = cur.fetchone()
 
     except Exception as ex:
-        traceback.print_exc()
+        #traceback.print_exc()
         print(ex)
         print("hit exception")
         conn.rollback()
@@ -252,7 +288,7 @@ async def update_report(rep: Report):
 
 # Delete a report with the specified report_id
 @app.delete("/reports/{report_id}")
-async def delete_report(report_id: str):
+async def delete_report(report_id: str, response: Response):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "DELETE FROM reports WHERE report_id=%(report_id)s"
 
@@ -270,6 +306,7 @@ async def delete_report(report_id: str):
         )
         this_report = cur.fetchone()
         if this_report is None:
+            response.status_code = response.status_code.HTTP_400
             return "Report does not exist"
 
         conn,curr=connect()

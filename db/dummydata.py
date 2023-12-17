@@ -11,7 +11,7 @@ dummy_data = [
         "analyst_id": "1",
         "content": "first report content",
         "feedback": " first report feedback",
-        "user_id_list": "2,3",
+        "subscribers": "2;3",
     },
     {
         # "report_id": 2,
@@ -19,7 +19,7 @@ dummy_data = [
         "analyst_id": "1",
         "content": "It was the best of times, it was the worst of times",
         "feedback": "acceptable feedback",
-        "user_id_list": "1",
+        "subscribers": "1",
     },
     {
         # "report_id": 3,
@@ -27,7 +27,7 @@ dummy_data = [
         "analyst_id": "2",
         "content": "hello i am the third report",
         "feedback": "this is good feedback",
-        "user_id_list": "",
+        "subscribers": "",
     },
     {
         # "report_id": 4,
@@ -35,7 +35,7 @@ dummy_data = [
         "analyst_id": "8",
         "content": "content talking about stuff",
         "feedback": "not so good feedback",
-        "user_id_list": "1,2",
+        "subscribers": "1;2",
     },
 ]
 
