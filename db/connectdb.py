@@ -19,7 +19,7 @@ def connect():
 # command="CREATE TABLE IF NOT EXISTS reports (report_id SERIAL PRIMARY KEY,
 #                                      title VARCHAR(255) NOT NULL,
 #                                      analyst_id VARCHAR(255) NOT NULL, content VARCHAR(4000),
-#                                      feedback VARCHAR(255), user_id_list VARCHAR(4000))""
+#                                      feedback VARCHAR(255), subscribers VARCHAR(4000))""
 # user_id_list is a ; separated list of all user_id's subscribed to the current report
 # cur.execute(command)
 # conn.commit()

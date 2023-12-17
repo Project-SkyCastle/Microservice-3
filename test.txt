@@ -4,9 +4,9 @@ GET http://35.221.53.203:8012/reports
 
 GET http://35.221.53.203:8012/reports?limit=3
 
-GET http://35.221.53.203:8012/reports?analyst=2
+GET http://35.221.53.203:8012/reports?analyst=1
 
-GET http://35.221.53.203:8012/reports?analyst=1&limit=1
+GET http://35.221.53.203:8012/reports?analyst=1&limit=2
 
 http://35.221.53.203:8012/reports/10/users
 
@@ -25,8 +25,10 @@ content-type: application/json
 
 {
     "report_id": "3",
-    "subscriber_id": "2"
+    "subscriber_id": "7"
 }
 
-DELETE http://35.221.53.203:8012/reports/14 HTTP/1.1
+GET http://35.221.53.203:8012/reports/6
+
+DELETE http://35.221.53.203:8012/reports/4 HTTP/1.1
 
