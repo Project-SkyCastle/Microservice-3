@@ -74,8 +74,8 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
         for row in result
     ]
 
-# Filtering additions:
-# - to add,
+# TODO
+# - Add check in case no results to avoid invalid indexes
 
 # Note: should add check that this is only 0 or 1 size
 @app.get("/reports/{report_id}")
@@ -241,11 +241,22 @@ async def update_report(rep: Report):
             "user_id_list": get_user_list(updated_report["user_id_list"]),
         }
 
+# Update existing report's content with report_id
+# @app.put("/reports")
+# async def update_report(rep: Report):
+# TODO
+# - Add: PUT /reports/subscription -> add/remove a given subscription_id for a given report
+#        and return success/fail, along with "added" or "removed"
+
 # Delete a report with the specified report_id
 @app.delete("/reports/{report_id}")
 async def delete_report(report_id: str):
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
     sql2 = "DELETE FROM reports WHERE report_id=%(report_id)s"
+
+    # TODO
+    # change this to return the report_id of the deleted report,
+    # and also the list of all subscription_id for that report
 
     conn,cur=connect()
     try:

@@ -17,6 +17,7 @@ def connect():
 
 #create a table
 # command="CREATE TABLE IF NOT EXISTS reports (report_id SERIAL PRIMARY KEY,
+#                                     title VARCHAR(255) NOT NULL,
 #                                     analyst_id VARCHAR(255) NOT NULL, content VARCHAR(4000),
 #                                     feedback VARCHAR(255), user_id_list VARCHAR(4000))""
 # user_id_list is a ; separated list of all user_id's subscribed to the current report
@@ -25,13 +26,14 @@ def connect():
 
 #insert data
 # report_id="1"
+# title="title1"
 # analyst_id="1"
 # content="empty"
 # feedbacks="empty"
 
 
-# command="""INSERT INTO reports (report_id, analyst_id, content, feedback) VALUES (%s, %s, %s, %s)"""
-# cur.execute(command,(report_id, analyst_id, content, feedback))
+# command="""INSERT INTO reports (report_id, title, analyst_id, content, feedback) VALUES (%s, %s, %s, %s, %s)"""
+# cur.execute(command,(report_id, title, analyst_id, content, feedback))
 # conn.commit()
 
 #fetch database

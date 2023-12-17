@@ -7,6 +7,7 @@ from datetime import datetime
 dummy_data = [
     {
         # "report_id": 1,
+        "title": "the first title",
         "analyst_id": "1",
         "content": "first report content",
         "feedback": " first report feedback",
@@ -14,6 +15,7 @@ dummy_data = [
     },
     {
         # "report_id": 2,
+        "title": "yet another title",
         "analyst_id": "1",
         "content": "It was the best of times, it was the worst of times",
         "feedback": "acceptable feedback",
@@ -21,6 +23,7 @@ dummy_data = [
     },
     {
         # "report_id": 3,
+        "title": "the third title",
         "analyst_id": "2",
         "content": "hello i am the third report",
         "feedback": "this is good feedback",
@@ -28,6 +31,7 @@ dummy_data = [
     },
     {
         # "report_id": 4,
+        "title": "wow another title",
         "analyst_id": "8",
         "content": "content talking about stuff",
         "feedback": "not so good feedback",
@@ -45,8 +49,8 @@ with pymysql.connect(
 ) as conn:
     with conn.cursor() as cur:
         insert = (
-            "INSERT into reports (analyst_id, content, feedback, user_id_list) "
-            "VALUES (%(analyst_id)s, %(content)s, %(feedback)s, %(user_id_list)s)"
+            "INSERT into reports (title, analyst_id, content, feedback, user_id_list) "
+            "VALUES (%(title)s, %(analyst_id)s, %(content)s, %(feedback)s, %(user_id_list)s)"
         )
         for row in dummy_data:
             cur.execute(insert, row)
