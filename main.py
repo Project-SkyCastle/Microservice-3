@@ -157,15 +157,23 @@ async def get_user_id_list(report_id: str, response: Response):
     if (result is None):
         response.status_code = status.HTTP_400
         return {"report_id": "-1"}
-    print(result)
     return {"subscribers": get_user_list(result["subscribers"])}
 
-def get_user_list(user_list: dict, response: Response):
-    if (user_list is None) or (user_list == "null") :
+# Convert string from DB to actual list
+def get_user_list(user_list: str):
+    if (user_list is None) or (user_list == ""):
         return []
 
     res_list = user_list.split(",")
     return [res for res in res_list if res != ""]
+
+# Convert list to a string
+def get_user_list_str(user_list: dict):
+    if (user_list is None) or (user_list == ""):
+        return ""
+
+    return ",".join(str(x) for x in user_list)
+
 
 # Todo:
 # Need to figure everything that goes into a report
@@ -226,17 +234,6 @@ async def create_report(rep: Report, response: Response):
 # PUT subscriber_id for specific report_id: adds it if it doesn't exist, removes it if it didn't
 @app.put("/reports/subscriber")
 async def toggle_subscriber(sub: Subscriber, response: Response):
-    # Subscriber has a report_id and subscriber_id field that need to be specified
-    # Planning
-    # Verify the report with the specified report_id exists
-    # If it doesn't exit -> error
-    # If subscriber_id does not exist in the list:
-    # Using the subscribers list returned from the first query, add the subscriber_id
-    # to the list
-    # Execute SQL query to change the subscribers list for that report_id to the
-    # new one with it added
-    # If subscriber id does exist in the list: same as above but remove it from the list
-    # Return a "result": "added" or "removed" and subscriber_id and report_id
     sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s LIMIT 1"
     sql2 = "UPDATE reports SET subscribers=%(subscribers)s WHERE report_id=%(report_id)s"
 
@@ -255,27 +252,31 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
             return {
                 "result": "fail"
             }
+        # Grab original list and update it
+        result = "added"
+        curr_subs = get_user_list(orig_report["subscribers"])
+        if sub.subscriber_id in curr_subs:
+            curr_subs.remove(sub.subscriber_id)
+            result = "removed"
+        else:
+            curr_subs.append(sub.subscriber_id)
+
+        # Get the string rep of the list
+        new_list_str = get_user_list_str(curr_subs)
 
         # Perform update
         conn,cur=connect()
         cur.execute(
             sql2,
             {
-                "content": rep.content,
-                "feedback": rep.feedback,
-                "report_id": rep.report_id,
+                "subscribers": new_list_str,
+                "report_id": sub.report_id,
             },
         )
 
-        # Get updated record
-        conn,cur=connect()
-        cur.execute(
-            sql1,
-            {
-                "report_id": rep.report_id,
-            },
-        )
-        updated_report = cur.fetchone()
+        return {
+            "result": result,
+        }
 
     except Exception as ex:
         #traceback.print_exc()
@@ -341,13 +342,6 @@ async def update_report(rep: Report, response: Response):
             "subscribers": get_user_list(updated_report["subscribers"]),
         }
 
-# Update existing report's content with report_id
-# @app.put("/reports")
-# async def update_report(rep: Report):
-# TODO
-# - Add: PUT /reports/subscription -> add/remove a given subscription_id for a given report
-#        and return success/fail, along with "added" or "removed"
-
 # Delete a report with the specified report_id
 @app.delete("/reports/{report_id}")
 async def delete_report(report_id: str, response: Response):
@@ -369,7 +363,7 @@ async def delete_report(report_id: str, response: Response):
         this_report = cur.fetchone()
         if this_report is None:
             response.status_code = response.status_code.HTTP_400
-            return "Report does not exist"
+            return { "report_id": "-1", }
 
         conn,curr=connect()
         cur.execute(
@@ -384,7 +378,7 @@ async def delete_report(report_id: str, response: Response):
         conn.rollback()
         return ex
 
-    return {"Deleted": report_id}
+    return this_report
 
 
 if __name__ == "__main__":
