@@ -224,7 +224,7 @@ async def create_report(rep: Report, response: Response):
 
     return {
             "report_id": this_report["LAST_INSERT_ID()"],
-            "title": this_report["title"],
+            "title": rep.title,
             "analyst_id": rep.analyst_id,
             "content": rep.content,
             "feedback": rep.feedback,
@@ -251,7 +251,7 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
             response.status_code = status.HTTP_400
             return {
                 "result": "fail",
-                "subscriber_id": str(sub.subscriber_id)
+                "subscriber_id": str(sub.subscriber_id),
             }
         # Grab original list and update it
         result = "added"
@@ -277,7 +277,7 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
 
         return {
             "result": result,
-            "subscriber_id": str(sub.subscriber_id)
+            "subscriber_id": str(sub.subscriber_id),
         }
 
     except Exception as ex:
