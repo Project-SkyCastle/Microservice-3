@@ -250,7 +250,8 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
         if orig_report is None:
             response.status_code = status.HTTP_400
             return {
-                "result": "fail"
+                "result": "fail",
+                "subscriber_id": str(sub.subscriber_id)
             }
         # Grab original list and update it
         result = "added"
@@ -276,6 +277,7 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
 
         return {
             "result": result,
+            "subscriber_id": str(sub.subscriber_id)
         }
 
     except Exception as ex:
@@ -378,7 +380,14 @@ async def delete_report(report_id: str, response: Response):
         conn.rollback()
         return ex
 
-    return this_report
+    return {
+        "report_id": this_report["report_id"],
+        "title": this_report["title"],
+        "analyst_id": this_report["analyst_id"],
+        "content": this_report["content"],
+        "feedback": this_report["feedback"],
+        "subscribers": get_user_list(this_report["subscribers"]),
+    }
 
 
 if __name__ == "__main__":
