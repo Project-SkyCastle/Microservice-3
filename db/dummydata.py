@@ -11,7 +11,7 @@ dummy_data = [
         "analyst_id": "1",
         "content": "first report content",
         "feedback": " first report feedback",
-        "subscribers": "2;3",
+        "subscribers": "2,3",
     },
     {
         # "report_id": 2,
@@ -35,7 +35,7 @@ dummy_data = [
         "analyst_id": "8",
         "content": "content talking about stuff",
         "feedback": "not so good feedback",
-        "subscribers": "1;2",
+        "subscribers": "1,2",
     },
 ]
 
@@ -49,8 +49,8 @@ with pymysql.connect(
 ) as conn:
     with conn.cursor() as cur:
         insert = (
-            "INSERT into reports (title, analyst_id, content, feedback, user_id_list) "
-            "VALUES (%(title)s, %(analyst_id)s, %(content)s, %(feedback)s, %(user_id_list)s)"
+            "INSERT into reports (title, analyst_id, content, feedback, subscribers) "
+            "VALUES (%(title)s, %(analyst_id)s, %(content)s, %(feedback)s, %(subscribers)s)"
         )
         for row in dummy_data:
             cur.execute(insert, row)

@@ -9,3 +9,7 @@ class Report(BaseModel):
     content: Optional[str] = None
     feedback: Optional[str] = None
     subscribers: Optional[str] = None
+
+class Subscriber(BaseModel):
+    report_id: Optional[int] = None
+    subscriber_id: Optional[int] = None
