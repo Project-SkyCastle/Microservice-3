@@ -14,18 +14,18 @@ POST http://35.221.53.203:8012/reports HTTP/1.1
 content-type: application/json
 
 {
+    "title": "The great new report",
     "analyst_id": "6",
     "content": "this is the new report I added for the video",
     "feedback": "very good video report"
 }
 
-PUT http://35.221.53.203:8012/reports HTTP/1.1
+PUT http://35.221.53.203:8012/reports/subscriber HTTP/1.1
 content-type: application/json
 
 {
-    "report_id": "14",
-    "content": "changed my video report content",
-    "feedback": "changed this also"
+    "report_id": "3",
+    "subscriber_id": "2"
 }
 
 DELETE http://35.221.53.203:8012/reports/14 HTTP/1.1

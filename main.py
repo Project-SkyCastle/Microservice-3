@@ -255,11 +255,11 @@ async def toggle_subscriber(sub: Subscriber, response: Response):
         # Grab original list and update it
         result = "added"
         curr_subs = get_user_list(orig_report["subscribers"])
-        if sub.subscriber_id in curr_subs:
-            curr_subs.remove(sub.subscriber_id)
+        if str(sub.subscriber_id) in curr_subs:
+            curr_subs.remove(str(sub.subscriber_id))
             result = "removed"
         else:
-            curr_subs.append(sub.subscriber_id)
+            curr_subs.append(str(sub.subscriber_id))
 
         # Get the string rep of the list
         new_list_str = get_user_list_str(curr_subs)
