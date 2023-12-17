@@ -63,7 +63,7 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
 
     result=cur.fetchall()
 
-    return [
+    result_list = [
         {
             "report_id": row["report_id"],
             "analyst_id": row["analyst_id"],
@@ -73,6 +73,8 @@ async def get_all_reports(analyst: str = "", limit: int = 0):
         }
         for row in result
     ]
+
+    return result_list
 
 # TODO
 # - Add check in case no results to avoid invalid indexes
