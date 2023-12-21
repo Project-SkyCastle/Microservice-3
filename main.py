@@ -344,6 +344,63 @@ async def update_report(rep: Report, response: Response):
             "subscribers": get_user_list(updated_report["subscribers"]),
         }
 
+# Put content into a report
+# Update existing report's content with report_id
+@app.put("/reports/content")
+async def update_content(rep: Report, response: Response):
+    sql1 = "SELECT * FROM reports WHERE report_id=%(report_id)s"
+    sql2 = "UPDATE reports SET content=%(content)s WHERE report_id=%(report_id)s"
+
+    conn,cur=connect()
+    try:
+        # Check exists
+        cur.execute(
+            sql1,
+            {
+                "report_id": rep.report_id,
+            },
+        )
+        orig_report = cur.fetchone()
+        if orig_report is None:
+            response.status_code = status.HTTP_400
+            return "Report does not exist"
+
+        # Perform update
+        conn,cur=connect()
+        cur.execute(
+            sql2,
+            {
+                "content": rep.content,
+                "report_id": rep.report_id,
+            },
+        )
+
+        # Get updated record
+        conn,cur=connect()
+        cur.execute(
+            sql1,
+            {
+                "report_id": rep.report_id,
+            },
+        )
+        updated_report = cur.fetchone()
+
+    except Exception as ex:
+        #traceback.print_exc()
+        print(ex)
+        print("hit exception")
+        conn.rollback()
+        return ex
+
+    return {
+            "report_id": updated_report["report_id"],
+            "title": updated_report["title"],
+            "analyst_id": updated_report["analyst_id"],
+            "content": updated_report["content"],
+            "feedback": updated_report["feedback"],
+            "subscribers": get_user_list(updated_report["subscribers"]),
+        }
+
 # Delete a report with the specified report_id
 @app.delete("/reports/{report_id}")
 async def delete_report(report_id: str, response: Response):
